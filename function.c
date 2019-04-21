@@ -22,7 +22,22 @@ int function(char *str){
     }
 
     // Make child_process for background
-    if (background == 1){
-        
+	pid_t pid = fork();;
+
+    // makesure fork's job
+    if(pid<0){
+        printf("Fork error!\n");
+    } else {
+        int status;
+        // Child process's job
+        if(pid == 0){
+            execvp(buffer[0], buffer);
+        } else if(background){ // Parents process's job
+            printf("Command is running on background");
+        } else{
+            printf("Command running now");
+            waitpid(pid, &status, 0);
+        }
+    
     }
 }
