@@ -12,18 +12,19 @@ int main(int argc, char *argv[]){
             continue;
         }
 
-		switch (argv[0]){
-            case "exit" : 
-			    return 0;
-			case "login" :
-			    login(argv);
-			case "makec" :
-			    makec(argv);
-			case "socketc" :
-			    socketc(argv);
-			default : // for normal function
-			    function(argv);
+		if (argv[0] == "exit"){
+		    return 0;
+		} else if(argv[0] == "login"){
+		    login(argv);
+		} else if(argv[0] == "makec"){
+		    makec(argv);
+		} else if(argv[0] == "socketc"){
+		    socketc(argv);
+		} else {
+		    function(argv);
 		}
+
+
 
     }
     return 0;
