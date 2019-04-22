@@ -1,6 +1,10 @@
 // for normal function
 
 #include <stdio.h>
+#include <string.h>
+#include <sys/types.h>
+#include <wait.h>
+#include <unistd.h>
 
 int function(char *str){
     // Array for function's string. Buffer have function's name and method. Example) "ls -l"
