@@ -1,6 +1,5 @@
 #include <stdio.h>
 
-int makec(){
+void makec(){
 
-    return 0;
 }

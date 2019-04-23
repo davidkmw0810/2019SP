@@ -1,6 +1,5 @@
 #include <stdio.h>
 
-int login(){
+void login(){
 
-    return 0;
 }

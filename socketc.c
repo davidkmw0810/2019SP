@@ -1,6 +1,5 @@
 #include <stdio.h>
 
-int socketc(){
+void socketc(){
 
-    return 0;
 }

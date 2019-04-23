@@ -1,10 +1,8 @@
 // Main Controller
 
 # include <stdio.h>
-# include "function.c"
-# include "login.c"
-# include "makec.c"
-# include "socketc.c"
+# include <string.h>
+# include "files.h"
 # define max_len 100
 
 int main(int argc, char *argv[]){

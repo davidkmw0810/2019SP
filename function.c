@@ -6,7 +6,7 @@
 #include <wait.h>
 #include <unistd.h>
 
-int function(char str[]){
+void function(char str[]){
     // Array for function's string. Buffer have function's name and method. Example) "ls -l"
     char *buffer[20];
 
