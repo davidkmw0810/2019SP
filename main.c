@@ -12,25 +12,35 @@ int main(int argc, char *argv[]){
 	    printf(">>");
 
         // get command from user
-		char str[max_len];
-		memset(str, 0, max_len);
-		fgets(str, max_len, stdin);
-		
+		char input[max_len];
+		memset(input, 0, max_len);
+		fgets(input, max_len, stdin);
+	
         // Check anything write
-		if(str == 0){
+		if(input == 0){
             continue;
         }
 
-		if (strcmp(str, "exit\n") == 0){ // end myshell
+        // divide input
+		char *str[max_len];
+		int k = 0;
+		memset(str, 0, max_len);
+        str[k] = strtok(input, " \n");
+		while(str[k] != NULL){
+		    k++;
+			str[k] = strtok(NULL, " \n");
+		}
+
+		if (strcmp(str[0], "exit\n") == 0){ // end myshell
 		    return 0;
-		} else if(strcmp(str, "login\n") == 0){ // user login
+		} else if(strcmp(str[0], "login\n") == 0){ // user login
 		    login();
-		} else if(strcmp(str, "makec\n") == 0){ // make c basic
+		} else if(strcmp(str[0], "makec\n") == 0){ // make c basic
 		    makec();
-		} else if(strcmp(str, "socketc\n") == 0){ // make socket basic
+		} else if(strcmp(str[0], "socketc\n") == 0){ // make socket basic
 		    socketc();
 		} else {
-		    function(str);
+		    function(str, k);
 		}
 
     }
