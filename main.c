@@ -13,6 +13,7 @@ int main(int argc, char *argv[]){
 
         // get command from user
 		char str[max_len];
+		memset(str, 0, max_len);
 		fgets(str, max_len, stdin);
 		
         // Check anything write
@@ -20,13 +21,13 @@ int main(int argc, char *argv[]){
             continue;
         }
 
-		if (strcmp(str, "exit") == 0){
+		if (strcmp(str, "exit\n") == 0){ // end myshell
 		    return 0;
-		} else if(strcmp(str, "login") == 0){
+		} else if(strcmp(str, "login\n") == 0){ // user login
 		    login();
-		} else if(strcmp(str, "makec") == 0){
+		} else if(strcmp(str, "makec\n") == 0){ // make c basic
 		    makec();
-		} else if(strcmp(str, "socketc") == 0){
+		} else if(strcmp(str, "socketc\n") == 0){ // make socket basic
 		    socketc();
 		} else {
 		    function(str);

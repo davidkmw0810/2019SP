@@ -15,14 +15,14 @@ void function(char str[]){
     buffer[k] = strtok(str, " \n");
     while(buffer[k] != NULL){
         k ++;
-        buffer[k] = strtok(str, " \n");
+        buffer[k] = strtok(NULL, " \n");
     }
 
     // Make background method
     int background = 0;
     if (buffer[k] == "&"){
         background = 1;
-        buffer[k] = "\0";
+        buffer[k] = NULL;
     }
 
     // Make child_process for background
@@ -37,9 +37,8 @@ void function(char str[]){
         if(pid == 0){
             execvp(buffer[0], buffer);
         } else if(background){ // Parents process's job
-            printf("Command is running on background");
+            printf("Command is running on background\n");
         } else{
-            printf("Command running now");
             waitpid(pid, &status, 0);
         }
     
