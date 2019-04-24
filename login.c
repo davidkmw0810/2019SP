@@ -5,9 +5,8 @@
 #define max_len 15
 
 struct User login(char *str[]){
-    // check guest or user
-    if(strstr(str[1], "guest") != NULL){return guest();}
-    FILE *fp = fopen("./user.txt", "r");
+    
+	FILE *fp = fopen("./user.txt", "r");
 
     char buffer[max_len*2 + 3]; // read line in user.txt
 	struct User user;
@@ -18,6 +17,7 @@ struct User login(char *str[]){
 
             // when id and pw correct, return id, pw
 			if(strcmp(user.id, str[1]) == 0 && strcmp(user.pw, str[2]) == 0){
+			    printf("change user %s\n", user.id);
 			    return user;
 			}
 
@@ -25,7 +25,5 @@ struct User login(char *str[]){
 	}
 
 	// when id and pw uncorrect, return guest's id, pw
-    return guest();
 }
-
 
