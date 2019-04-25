@@ -16,9 +16,9 @@ int main(int argc, char *argv[]){
 		char input[max_len];
 		memset(input, 0, max_len);
 		fgets(input, max_len, stdin);
-	
+
         // Check anything write
-		if(input == 0){
+		if(strcmp(input, "\n") == 0){
             continue;
         }
 
@@ -36,9 +36,9 @@ int main(int argc, char *argv[]){
 		    return 0;
 		} else if(strstr(str[0], "login") != NULL){ // user login
 		    login(str);
-		} else if(strcmp(str[0], "makec\n") == 0){ // make c basic
-		    makec();
-		} else if(strcmp(str[0], "socketc\n") == 0){ // make socket basic
+		} else if(strstr(str[0], "makec") != NULL){ // make c basic
+		    makec(str);
+		} else if(strstr(str[0], "socketc") != NULL){ // make socket basic
 		    socketc();
 		} else {
 		    function(str, k);

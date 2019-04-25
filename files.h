@@ -1,7 +1,5 @@
 # include <stdio.h>
-# include <string.h>
 
-struct User;
 void function();
 struct User login();
 void makec();

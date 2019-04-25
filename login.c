@@ -18,6 +18,7 @@ struct User login(char *str[]){
             // when id and pw correct, return id, pw
 			if(strcmp(user.id, str[1]) == 0 && strcmp(user.pw, str[2]) == 0){
 			    printf("change user %s\n", user.id);
+				fclose(fp);
 			    return user;
 			}
 
@@ -25,5 +26,7 @@ struct User login(char *str[]){
 	}
 
 	// when id and pw uncorrect, return guest's id, pw
+	printf("id and pw is not correct!!\n");
+	fclose(fp);
 }
 
