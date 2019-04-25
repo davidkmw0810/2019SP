@@ -10,7 +10,7 @@ int main(int argc, char *argv[]){
 	
     while(1){
 
-	    printf(">");
+	    printf(">>");
 
         // get command from user
 		char input[max_len];
@@ -31,8 +31,8 @@ int main(int argc, char *argv[]){
 		    k++;
 			str[k] = strtok(NULL, " \n");
 		}
-
-		if (strcmp(str[0], "exit\n") == 0){ // end myshell
+        
+		if (strstr(str[0], "exit") != NULL){ // end myshell
 		    return 0;
 		} else if(strstr(str[0], "login") != NULL){ // user login
 		    login(str);
