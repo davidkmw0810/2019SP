@@ -39,7 +39,7 @@ int main(int argc, char *argv[]){
 		} else if(strstr(str[0], "makec") != NULL){ // make c basic
 		    makec(str);
 		} else if(strstr(str[0], "socketc") != NULL){ // make socket basic
-		    socketc();
+		    socketc(str);
 		} else {
 		    function(str, k);
 		}

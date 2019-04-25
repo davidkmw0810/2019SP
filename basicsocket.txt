@@ -1,0 +1,172 @@
+
+/* 
+   A simple server in the internet domain using TCP
+   Usage:./server port (E.g. ./server 10000 )
+*/
+#include <stdio.h>
+#include <sys/types.h>	// definitions of a number of data types used in socket.h and netinet/in.h
+#include <sys/socket.h> // definitions of structures needed for sockets, e.g. sockaddr
+#include <netinet/in.h> // constants and structures needed for internet domain addresses, e.g. sockaddr_in
+#include <stdlib.h>
+#include <string.h>
+#include <unistd.h>
+
+void error(char *msg)
+{
+	perror(msg);
+	exit(1);
+}
+
+int main(int argc, char *argv[])
+{
+	int sockfd, newsockfd; //descriptors rturn from socket and accept system calls
+	int portno;						 // port number
+	socklen_t clilen;
+
+	char buffer[256];
+
+	/*sockaddr_in: Structure Containing an Internet Address*/
+	struct sockaddr_in serv_addr, cli_addr;
+
+	int n;
+	if (argc < 2)
+	{
+		fprintf(stderr, "ERROR, no port provided\n");
+		exit(1);
+	}
+
+	/*Create a new socket
+       AF_INET: Address Domain is Internet 
+       SOCK_STREAM: Socket Type is STREAM Socket */
+	sockfd = socket(AF_INET, SOCK_STREAM, 0); //socket 생성 AF_INET:소켓, SOCK_STREAM:소켓타입, 0:프로토콜
+	if (sockfd < 0)
+		error("ERROR opening socket");
+
+	bzero((char *)&serv_addr, sizeof(serv_addr)); //serv_addr의 메모리 초기화
+	portno = atoi(argv[1]);												//atoi converts from String to Integer
+	serv_addr.sin_family = AF_INET;								//server 주소체계
+	serv_addr.sin_addr.s_addr = INADDR_ANY;				//32비트 ip주소 for the server the IP address is always the address that the server is running on
+	serv_addr.sin_port = htons(portno);						//포트 번호 convert from host to network byte order
+
+	if (bind(sockfd, (struct sockaddr *)&serv_addr, sizeof(serv_addr)) < 0) //Bind the socket to the server address
+		error("ERROR on binding");
+
+	listen(sockfd, 5); // Listen for socket connections. Backlog queue (connections to wait) is 5
+
+	/*accept function: 
+				1) Block until a new connection is established
+				2) the new socket descriptor will be used for subsequent communication with the newly connected client.
+			*/
+	while (1)
+	{
+		clilen = sizeof(cli_addr);
+		newsockfd = accept(sockfd, (struct sockaddr *)&cli_addr, &clilen);
+		if (newsockfd < 0)
+			error("ERROR on accept");
+		bzero(buffer, 256);
+		n = read(newsockfd, buffer, 255); //Read is a block function. It will read at most 255 bytes
+		if (n < 0)
+			error("ERROR reading from socket");
+		// find filename
+		char name[60];
+		memset(name, 0, 60);
+		strtok(buffer, " ");
+		strcat(name, ".");
+		strcat(name, strtok(NULL, " "));
+		printf("filename : %s\n", name);
+		// find filetype
+		char type[100];
+		char type_name[100];
+		memset(type, 0, 100);
+		memset(type_name, 0, 100);
+		FILE *fp;
+		int index = strlen(name) - 1;
+		while (index > 0)
+		{
+			if (*(name + index) == '.')
+				break;
+			index--;
+		}
+		if (index > 0)
+		{
+			sprintf(type, "%s", (name + index + 1));
+			printf("type : %s\n", type);
+			// file type is html
+			if (strncmp(type, "html", 4) == 0)
+			{
+				strcat(type_name, "text/");
+				strcat(type_name, type);
+			}
+			// file type is png
+			else if (strncmp(type, "png", 3) == 0)
+			{
+				strcat(type_name, "image/png");
+			}
+			// file type is mp3
+			else if (strncmp(type, "mp3", 3) == 0)
+			{
+				strcat(type_name, "audio/mpeg");
+			}
+			// file type is pdf
+			else if (strncmp(type, "pdf", 3) == 0)
+			{
+				strcat(type_name, "application/pdf");
+			}
+			else
+			{
+				strcat(type_name, "application/octet-stream");
+			}
+			printf("type_name = %s\n", type_name);
+			// file open
+			fp = fopen(name, "rb");
+		}
+		else
+		{
+			fp = NULL;
+		}
+
+		char *send_msg = (char *)malloc(sizeof(char) * 1024);
+
+		if (fp != NULL)
+		{
+			fseek(fp, 0, SEEK_END);
+			// take the file's size
+			int size = ftell(fp);
+			fseek(fp, 0, SEEK_SET);
+			printf("filesize = %d\n\n", size);
+			// read file's msg
+
+			unsigned char *send_buf = (unsigned char *)malloc(sizeof(unsigned char) * 1024);
+
+			// make send_msg
+			sprintf(send_msg, "HTTP/1.1 200 OK\r\nContent-Length: %d\r\nContent-Type: %s\r\n\r\n", size, type_name);
+			printf("%s\n", send_msg);
+			n = write(newsockfd, send_msg, strlen(send_msg));
+			if (n < 0)
+				error("ERROR writing to socket");
+
+			while ((n = fread(send_buf, sizeof(char), 1024, fp)) > 0)
+			{
+				int nwrite = write(newsockfd, send_buf, n);
+				if (nwrite < 0)
+				{
+					perror("ERROR writing to socket");
+					break;
+				}
+				memset(send_buf, 0, 1024);
+			}
+		}
+		else
+		{
+			sprintf(send_msg, "HTTP/1.1 404 Not Found\r\n\r\n");
+			printf("%s\n", send_msg);
+			n = write(newsockfd, send_msg, strlen(send_msg));
+			if (n < 0)
+				error("ERROR writing to socket");
+		}
+		//fclose(fp);
+		close(newsockfd);
+	}
+	close(sockfd);
+	return 0;
+}
