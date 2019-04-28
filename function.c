@@ -33,3 +33,12 @@ void function(char *buffer[], int len){
     
     }
 }
+
+void cd(char *buffer){
+    if(chdir(buffer) == 0){
+	    printf("Change directory successful!\n");
+	} else {
+	    printf("Change directory fail!\n");
+	}
+	
+}
