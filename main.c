@@ -7,12 +7,18 @@
 # define max_len 100
 
 int main(int argc, char *argv[]){
-    printf("You can use linux function, and login, makec, socketc command\n");
+
+    printf("%c[%d;%dm", 0x1B, 1, 34); // color set Bold, Blue
+	printf("You can use linux function, and login, makec, socketc command\n");
+	printf("%c[%dm", 0x1B, 0); // color reset
 	
     while(1){
         char pwd[100];
 		getcwd(pwd, 100);
-	    printf("%s>>", pwd);
+        printf("%c[%dm", 27, 92); // color set Light Green
+	    printf("%s", pwd);
+ 	    printf("%c[%dm", 0x1B, 0); // color reset
+        printf(">>");
 
         // get command from user
 		char input[max_len];
@@ -34,7 +40,6 @@ int main(int argc, char *argv[]){
 			str[k] = strtok(NULL, " \n");
 		}
 		if (strstr(str[0], "exit") != NULL){ // end myshell
-		    printf("END!!!\n");
 		    return 0;
 		} else if(strstr(str[0], "login") != NULL){ // user login
 		    login(str);
