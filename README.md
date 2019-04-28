@@ -14,10 +14,10 @@
  
  Command is 'socketc {filename}'
 ### 4. Can change user's name
- When you run the shell, user is 'guest'. If you want to change user, do 'login {id} {pw}'
+ When you run the shell, user is 'guest'. If you want to change user, do 'login {id} {pw}'.
 
 
 
 ## Makefile
 You can run this shell on command 'myshell'.
-Of course you have to 'make myshell'
+Of course you have to 'make myshell'.
