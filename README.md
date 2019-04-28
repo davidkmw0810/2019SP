@@ -7,9 +7,10 @@
 ### 2. Make basic '.C' file
  Make code for printing 'Hello World!'.
 
- Command is 'makec <filename>'
+ Command is 'makec {filename}'
 ### 3. Make socket code on language C
- Make code for connecting socket. It is project in our Network class. I copy that.
- Command is 'socketc <filename>'
+ Make code for connecting socket.
+ > It is project in our Network class. I copy that.
+ Command is 'socketc {filename}'
 ### 4. Can change user's name
- When you run the shell, user is 'guest'. If you want to change user, do 'login <id> <pw>'
+ When you run the shell, user is 'guest'. If you want to change user, do 'login {id} {pw}'
