@@ -1,7 +1,7 @@
 # include <stdio.h>
 
 void function();
-struct User login();
+char* login();
 void makec();
 void socketc();
 void cd();
