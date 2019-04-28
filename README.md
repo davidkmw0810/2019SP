@@ -1,7 +1,14 @@
-# shell only for me
+# Make My Own Shell
 
 ## function
 
-### 1. normaly linux's function
-### 2. make basic '.C' file
-### 3. make socket code on language C
+### 1. Normaly linux's function
+* Make normal functions in 'execvp'. But 'cd' command is not working in 'execvp'. So I use system call 'chdir' for making cd command
+### 2. Make basic '.C' file
+* Make code for printing 'Hello World!'.
+  Command is 'makec <filename>'
+### 3. Make socket code on language C
+* Make code for connecting socket. It is project in our Network class. I copy that.
+  Command is 'socketc <filename>'
+### 4. Can change user's name
+* When you run the shell, user is 'guest'. If you want to change user, do 'login <id> <pw>'
